@@ -17,5 +17,8 @@
     "astro": "^2.1.7",
     "prisma": "^4.11.0",
     "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.9"
   }
 }
