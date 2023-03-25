@@ -4,7 +4,7 @@ import type { Router } from "./server";
 export const api = createTRPCProxyClient<Router>({
     links: [
         httpBatchLink({
-            url: 'http://localhost:3000/trpc',
+            url: `http://localhost:3000/trpc`,
         }),
     ]
 });
