@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 
 import { hello } from "../trpc/client";
+import TailComp from "../components/TailComp.astro";
 
 const tRPCString = hello("Κωνσταντίνε");
 ---
@@ -11,6 +12,7 @@ const tRPCString = hello("Κωνσταντίνε");
 	<main>
 		<h1>Welcome to <span class="text-gradient">UrbanDict</span></h1>
 		<span>{tRPCString}</span>
+		<TailComp />
 		<p class="instructions">
 			To get started, open the directory <code>src/pages</code> in your project.<br
 			/>
