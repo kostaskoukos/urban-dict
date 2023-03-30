@@ -13,6 +13,7 @@ datasource db {
 
 model TestUser {
   name String
+  job  String?
   id   Int     @id @default(autoincrement())
   mood String?
 }

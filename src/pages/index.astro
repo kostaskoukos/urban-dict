@@ -3,12 +3,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 import { hello } from "../trpc/client";
 import TailComp from "../components/TailComp.astro";
+import PreTest from "../components/PreTest";
+import Post from "../components/Post";
 
 const tRPCString = hello("Κωνσταντίνε");
 ---
+
 <BaseLayout title="Welcome to Astro.">
 	<main>
 		<span>{tRPCString}</span>
 		<TailComp />
+		<PreTest client:visible />
+		{
+			[1, 2, 3].map(() => {
+				return <Post />;
+			})
+		}
 	</main>
 </BaseLayout>
