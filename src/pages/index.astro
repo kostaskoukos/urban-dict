@@ -1,16 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-import { hello } from "../trpc/client";
+import { hello, getAllUsers } from "../trpc/client";
 import TailComp from "../components/TailComp.astro";
 import PreTest from "../components/PreTest";
 import Post from "../components/Post";
 
 const tRPCString = hello("Κωνσταντίνε");
+const allUsers = await getAllUsers();
 ---
 
 <BaseLayout title="Welcome to Astro.">
 	<main>
+		<span>{JSON.stringify(allUsers)}</span>
 		<span>{tRPCString}</span>
 		<TailComp />
 		<PreTest client:visible />

@@ -10,6 +10,16 @@ export function createContext({
 }
 export type Context = inferAsyncReturnType<typeof createContext>;
 
+////////////////////      DATABASE     ////////////////////////////////////////////////
+import { Kysely } from "kysely";
+import { PlanetScaleDialect } from "kysely-planetscale";
+import type { DB } from "../db/types";
+
+const db = new Kysely<DB>({
+    dialect: new PlanetScaleDialect({
+        url: import.meta.env.DATABASE_URL,
+    }),
+});
 ////////////////////      ROUTER       ////////////////////////////////////////////////
 import { initTRPC } from "@trpc/server";
 import { z } from 'zod';
@@ -24,6 +34,12 @@ export const router = t.router({
         .query(({ input }) => {
             const time = new Date().toLocaleTimeString('GR');
             return `Γεια σου ${input}! Η ώρα είναι: ${time}.`;
+        }),
+    getAllUsers: pro.
+        query(async () => {
+            const users = await db.selectFrom('TestUser').selectAll().execute();
+            console.log(users);
+            return users;
         })
 });
 

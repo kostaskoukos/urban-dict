@@ -18,3 +18,7 @@ export const api = createTRPCProxyClient<Router>({
 export const hello = async (input: string) => {
     return await api.hello.query(input);
 }
+
+export const getAllUsers = async () => {
+    return await api.getAllUsers.query();
+}
