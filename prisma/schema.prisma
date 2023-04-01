@@ -17,9 +17,11 @@ datasource db {
   relationMode = "prisma"
 }
 
-model TestUser {
-  name String
-  job  String?
-  id   Int     @id @default(autoincrement())
-  mood String?
+model Post {
+  term       String
+  definition  String
+  example    String?
+  authorName String
+  createdAt  DateTime @default(dbgenerated("now()"))
+  id         String   @id @default(dbgenerated("cuid()"))
 }

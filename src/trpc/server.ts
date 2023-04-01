@@ -37,7 +37,7 @@ export const router = t.router({
         }),
     getAllUsers: pro.
         query(async () => {
-            const users = await db.selectFrom('TestUser').selectAll().execute();
+            const users = await db.selectFrom('Post').selectAll().execute();
             console.log(users);
             return users;
         })
