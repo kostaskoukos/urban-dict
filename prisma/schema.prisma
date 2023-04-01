@@ -19,9 +19,9 @@ datasource db {
 
 model Post {
   term       String
-  definition  String
+  definition String
   example    String?
   authorName String
   createdAt  DateTime @default(dbgenerated("now()"))
-  id         String   @id @default(dbgenerated("cuid()"))
+  id         Int      @id @default(dbgenerated("autoincrement()"))
 }
