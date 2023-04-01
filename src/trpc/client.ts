@@ -19,6 +19,10 @@ export const hello = async (input: string) => {
     return await api.hello.query(input);
 }
 
-export const getAllUsers = async () => {
-    return await api.getAllUsers.query();
+export const getAllPosts = async () => {
+    return await api.getAllPosts.query();
+}
+
+export const searchPost = async (term: string) => {
+    return await api.searchPosts.query(term);
 }

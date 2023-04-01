@@ -35,11 +35,19 @@ export const router = t.router({
             const time = new Date().toLocaleTimeString('GR');
             return `Γεια σου ${input}! Η ώρα είναι: ${time}.`;
         }),
-    getAllUsers: pro.
+    getAllPosts: pro.
         query(async () => {
-            const users = await db.selectFrom('Post').selectAll().execute();
-            console.log(users);
-            return users;
+            const posts = await db.selectFrom('Post').selectAll().execute();
+            console.log(posts);
+            return posts;
+        }),
+    searchPosts: pro
+        .input(z.string().nonempty().trim())
+        .query(async ({ input }) => {
+            const posts = await db.selectFrom('Post')
+                .select(['Post.authorName', 'Post.createdAt', 'Post.definition', 'Post.example', 'Post.term'])
+                .where('Post.term', '=', `${input}`).execute();
+            return posts;
         })
 });
 

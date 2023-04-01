@@ -9,7 +9,7 @@ export type Post = {
     example: string | null;
     authorName: string;
     createdAt: Generated<Timestamp>;
-    id: Generated<string>;
+    id: Generated<number>;
 };
 export type DB = {
     Post: Post;

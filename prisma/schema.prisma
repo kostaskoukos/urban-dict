@@ -1,9 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// generator client {
-//   provider = "prisma-client-js"
-// }
+generator client {
+  provider = "prisma-client-js"
+}
 
 generator kysely {
   provider = "prisma-kysely"
@@ -22,6 +22,6 @@ model Post {
   definition String
   example    String?
   authorName String
-  createdAt  DateTime @default(dbgenerated("now()"))
-  id         Int      @id @default(dbgenerated("autoincrement()"))
+  createdAt  DateTime @default(now())
+  id         Int   @id @default(autoincrement())
 }
