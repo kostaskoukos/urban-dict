@@ -1,27 +1,17 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import NavLayout from "../layouts/NavLayout.astro";
 
-import { hello, getAllPosts, searchPost } from "../trpc/client";
 import TailComp from "../components/TailComp.astro";
 import PreTest from "../components/PreTest";
 import Post from "../components/Post";
-
-const tRPCString = hello("Κωνσταντίνε");
-const allPosts = await getAllPosts();
-const searchedPosts = await searchPost("LMAO");
 ---
 
-<BaseLayout title="Welcome to Astro.">
-	<main>
-		<h1 class="text-4xl">{JSON.stringify(searchedPosts)}</h1>
-		<!-- <span>{JSON.stringify(allPosts)}</span> -->
-		<span>{tRPCString}</span>
-		<TailComp />
-		<PreTest client:visible />
-		{
-			[1, 2, 3].map(() => {
-				return <Post />;
-			})
-		}
-	</main>
-</BaseLayout>
+<NavLayout title="Welcome to Astro.">
+	<TailComp />
+	<PreTest client:visible />
+	{
+		[1, 2, 3].map(() => {
+			return <Post />;
+		})
+	}
+</NavLayout>
