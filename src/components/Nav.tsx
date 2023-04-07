@@ -3,9 +3,9 @@ import { useState } from 'preact/hooks';
 export default function PreTest() {
     const [open, setOpen] = useState(false);
     return <>
-        <header class="h-fit bg-slate-500 w-full">
-            <nav class="md:w-5/12 md:mx-auto md:flex-col flex flex-row gap-5 py-2 mx-4">
-                <div class=" flex flex-col justify-between">
+        <header class="h-fit bg-slate-500 max-w-full">
+            <nav class="md:w-1/2 md:mx-auto md:flex-col flex flex-row justify-evenly gap-3 py-2 mx-3">
+                <div class="flex flex-col justify-between">
                     <div>
                         <div class="flex items-center">
                             <a href="/">
@@ -64,7 +64,7 @@ export default function PreTest() {
                             >
                         </a>
                     </div>
-                    <div class={`md:flex-row md:flex flex flex-col justify-between ${open ? '' : 'hidden'} gap-4`}>
+                    <div class={`md:flex-row md:flex flex flex-col break-normal justify-between ${open ? '' : 'hidden'} gap-4`}>
                         <a class="flex-grow font-semibold text-white" href="/browse"
                         >Browse</a
                         >
@@ -79,10 +79,9 @@ export default function PreTest() {
                         >
                     </div>
                 </div>
-                <form>
-                    <div class="flex items-center h-10 gap-3 bg-white rounded-md">
+                <form class="flex flex-row items-center h-10 bg-white px-2 rounded-md">
                         <svg
-                            class="ml-2"
+                            
                             fill="#d1d5db"
                             height="20"
                             viewBox="0 0 16 15"
@@ -93,12 +92,12 @@ export default function PreTest() {
                         ></path></svg
                         >
                         <input
-                            class="flex-grow h-full bg-transparent outline-none"
+                            class="flex-grow indent-3 outline-none bg-transparent"
                             type="text"
                             placeholder="Search..."
                         />
                         <svg
-                            class="mr-2 cursor-pointer"
+                            class="cursor-pointer"
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
                             height="16"
@@ -110,7 +109,6 @@ export default function PreTest() {
                                 d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
                             ></path>
                         </svg>
-                    </div>
                 </form>
             </nav>
         </header>
