@@ -48,6 +48,16 @@ export const router = t.router({
                 .select(['Post.authorName', 'Post.createdAt', 'Post.definition', 'Post.example', 'Post.term'])
                 .where('Post.term', '=', `${input}`).execute();
             return posts;
+        }),
+    addPost: pro
+        .input(z.object({
+            word: z.string().nonempty(),
+            definition: z.string().nonempty(),
+            example: z.string().optional(),
+            authorName: z.string().nonempty()
+        }))
+        .mutation(({ input }) => {
+            console.log(input);
         })
 });
 

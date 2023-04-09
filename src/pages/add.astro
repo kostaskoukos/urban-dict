@@ -1,0 +1,22 @@
+---
+import NavLayout from "../layouts/NavLayout.astro";
+---
+
+<NavLayout title="Add your word on Urban Dict">
+    <h1 class="text-4xl text-center">Add a Word!</h1>
+    <form class=" md:w-2/3 md:mx-auto flex flex-col gap-2 mx-3">
+        <label for="word">Word:</label>
+        <input class="indent-2 h-9 bg-gray-200" type="text" name="word" required />
+
+        <label for="definition">Definition:</label>
+        <textarea class="indent-2 h-32 bg-gray-200" name="definition" required></textarea>
+
+        <label for="example">Example using the word (optional):</label>
+        <textarea class="indent-2 h-24 bg-gray-200" name="example"></textarea>
+
+        <label for="authorName">Your name (optional):</label>
+        <input class="indent-2 h-9 bg-gray-200" type="text" name="authorName" />
+
+        <button class="self-end px-3 py-2 text-white bg-blue-600 rounded-md" type="submit">Submit your word!</button>
+    </form>
+</NavLayout>

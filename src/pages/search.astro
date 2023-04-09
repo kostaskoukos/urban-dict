@@ -1,0 +1,8 @@
+---
+import NavLayout from "../layouts/NavLayout.astro";
+const term = Astro.url.searchParams.get("term");
+---
+
+<NavLayout title="Search words in Urban Dict">
+    <h1 class="text-center text-4xl">Search Results for {term}</h1>
+</NavLayout>
