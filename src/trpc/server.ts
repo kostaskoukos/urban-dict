@@ -11,18 +11,19 @@ export function createContext({
 export type Context = inferAsyncReturnType<typeof createContext>;
 
 ////////////////////      DATABASE     ////////////////////////////////////////////////
-import { Kysely } from "kysely";
-import { PlanetScaleDialect } from "kysely-planetscale";
-import type { DB } from "../db/types";
+import { connect } from "@planetscale/database";
+import { drizzle } from "drizzle-orm/planetscale-serverless";
+import { post } from '../db/schema';
 
-const db = new Kysely<DB>({
-    dialect: new PlanetScaleDialect({
-        url: import.meta.env.DATABASE_URL,
-    }),
+const conn = connect({
+    url: import.meta.env.DATABASE_URL
 });
+
+const db = drizzle(conn);
 ////////////////////      ROUTER       ////////////////////////////////////////////////
 import { initTRPC } from "@trpc/server";
 import { z } from 'zod';
+import { eq } from 'drizzle-orm';
 
 const t = initTRPC.context<Context>().create();
 
@@ -37,16 +38,20 @@ export const router = t.router({
         }),
     getAllPosts: pro.
         query(async () => {
-            const posts = await db.selectFrom('Post').selectAll().execute();
-            console.log(posts);
+            const posts = await db.select().from(post);
             return posts;
         }),
     searchPosts: pro
         .input(z.string().nonempty().trim())
         .query(async ({ input }) => {
-            const posts = await db.selectFrom('Post')
-                .select(['Post.authorName', 'Post.createdAt', 'Post.definition', 'Post.example', 'Post.term'])
-                .where('Post.term', '=', `${input}`).execute();
+            const posts = await db.select({
+                term: post.term,
+                definition: post.definition,
+                author: post.authorName,
+                example: post.example,
+                createdAt: post.createdAt
+            }).from(post)
+                .where(eq(post.term, input));
             return posts;
         }),
     addPost: pro

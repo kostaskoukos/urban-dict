@@ -1,8 +1,12 @@
 ---
 import NavLayout from "../layouts/NavLayout.astro";
+import { getAllPosts, searchPost } from "../trpc/client";
 const term = Astro.url.searchParams.get("term");
+
+const posts = await searchPost(term as string);
 ---
 
 <NavLayout title="Search words in Urban Dict">
     <h1 class="text-center text-4xl">Search Results for {term}</h1>
+    <p>{JSON.stringify(posts)}</p>
 </NavLayout>

@@ -1,0 +1,65 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "5",
+  "dialect": "mysql",
+  "tables": {
+    "Post": {
+      "name": "Post",
+      "columns": {
+        "term": {
+          "autoincrement": false,
+          "name": "term",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "definition": {
+          "autoincrement": false,
+          "name": "definition",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "example": {
+          "autoincrement": false,
+          "name": "example",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "authorName": {
+          "autoincrement": false,
+          "name": "authorName",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "default": "(CURRENT_TIMESTAMP(3))",
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {},
+      "indexes": {},
+      "foreignKeys": {}
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

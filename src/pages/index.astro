@@ -4,10 +4,14 @@ import NavLayout from "../layouts/NavLayout.astro";
 import TailComp from "../components/TailComp.astro";
 import PreTest from "../components/PreTest";
 import Post from "../components/Post";
+import { getAllPosts, searchPost } from "../trpc/client";
+
+const posts = await searchPost('LMAO');
 ---
 
 <NavLayout title="Home Page for Urban Dict">
 	<TailComp />
+	<p>{JSON.stringify(posts)}</p>
 	<PreTest client:visible />
 	{
 		[1, 2, 3].map(() => {
