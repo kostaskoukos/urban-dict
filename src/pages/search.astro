@@ -1,6 +1,6 @@
 ---
 import NavLayout from "../layouts/NavLayout.astro";
-import { getAllPosts, searchPost } from "../trpc/client";
+import { searchPost } from "../trpc/client";
 const term = Astro.url.searchParams.get("term");
 
 const posts = await searchPost(term as string);

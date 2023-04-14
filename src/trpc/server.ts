@@ -13,8 +13,7 @@ export type Context = inferAsyncReturnType<typeof createContext>;
 ////////////////////      DATABASE     ////////////////////////////////////////////////
 import { connect } from "@planetscale/database";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { post } from '../db/schema';
-
+import { post, NewPost } from "../db/schema";
 const conn = connect({
     url: import.meta.env.DATABASE_URL
 });
@@ -45,13 +44,13 @@ export const router = t.router({
         .input(z.string().nonempty().trim())
         .query(async ({ input }) => {
             const posts = await db.select({
-                term: post.term,
+                word: post.word,
                 definition: post.definition,
                 author: post.authorName,
                 example: post.example,
                 createdAt: post.createdAt
             }).from(post)
-                .where(eq(post.term, input));
+                .where(eq(post.word, input));
             return posts;
         }),
     addPost: pro
@@ -59,10 +58,12 @@ export const router = t.router({
             word: z.string().nonempty(),
             definition: z.string().nonempty(),
             example: z.string().optional(),
-            authorName: z.string().nonempty()
+            authorName: z.string().optional()
         }))
-        .mutation(({ input }) => {
-            console.log(input);
+        .mutation(async ({ input }) => {
+            console.log(input, ' from server');
+            await db.insert(post).values(input as NewPost);
+            return 'Your word was submitted successfully!';
         })
 });
 

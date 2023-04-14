@@ -26,3 +26,7 @@ export const getAllPosts = async () => {
 export const searchPost = async (term: string) => {
     return await api.searchPosts.query(term);
 }
+
+export const addPost = async (post: { word: string, definition: string, example?: string, authorName?: string }): Promise<string> => {
+    return await api.addPost.mutate(post);
+}

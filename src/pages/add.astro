@@ -1,22 +1,80 @@
 ---
 import NavLayout from "../layouts/NavLayout.astro";
+import { addPost } from "../trpc/client";
+
+const payload = Object.fromEntries(Astro.url.searchParams) as {
+    word: string;
+    definition: string;
+    example?: string;
+    authorName?: string;
+};
+
+let error = "";
+let msg = "";
+
+if (Astro.request.method == "POST") {    
+    if (Object.keys(payload).length !== 0) {
+        if (!payload.word.trim()) {
+            error = "You must fill the word input field!";
+            return;
+        }
+
+        if (!payload.definition.trim()) {
+            error = "You must fill the definition input field!";
+            return;
+        }
+        msg = await addPost(payload);
+    }
+}
 ---
 
 <NavLayout title="Add your word on Urban Dict">
     <h1 class="text-4xl text-center">Add a Word!</h1>
-    <form class=" md:w-2/3 md:mx-auto flex flex-col gap-2 mx-3">
+    {
+        error && (
+            <p class="w-fit text-center md:px-3 py-2 mx-auto my-2 text-lg text-red-500 bg-red-200 border-2 border-red-700 rounded-md">
+                {error}
+            </p>
+        )
+    }
+    {
+        msg && (
+            <p class="w-fit text-center md:px-3 py-2 mx-auto my-2 text-lg text-green-500 bg-green-200 border-2 border-green-700 rounded-md">
+                {msg}
+            </p>
+        )
+    }
+    <form method="post" class="md:w-2/3 md:mx-auto flex flex-col gap-2 mx-3">
         <label for="word">Word:</label>
-        <input class="indent-2 h-9 bg-gray-200" type="text" name="word" required />
+        <input
+            value={Astro.url.searchParams.get("word")}
+            class="h-9 bg-gray-200"
+            type="text"
+            name="word"
+            required
+        />
 
         <label for="definition">Definition:</label>
-        <textarea class="indent-2 h-32 bg-gray-200" name="definition" required></textarea>
+        <textarea class="h-32 bg-gray-200" name="definition" required
+            >{Astro.url.searchParams.get("definition")}</textarea
+        >
 
         <label for="example">Example using the word (optional):</label>
-        <textarea class="indent-2 h-24 bg-gray-200" name="example"></textarea>
+        <textarea class="h-24 bg-gray-200" name="example"
+            >{Astro.url.searchParams.get("example")}</textarea
+        >
 
         <label for="authorName">Your name (optional):</label>
-        <input class="indent-2 h-9 bg-gray-200" type="text" name="authorName" />
+        <input
+            value={Astro.url.searchParams.get("authorName")}
+            class="h-9 bg-gray-200"
+            type="text"
+            name="authorName"
+        />
 
-        <button class="self-end px-3 py-2 text-white bg-blue-600 rounded-md" type="submit">Submit your word!</button>
+        <button 
+            class="self-end px-3 py-2 text-white bg-blue-600 rounded-md"
+            type="submit">Submit your word!</button
+        >
     </form>
 </NavLayout>
