@@ -1,29 +1,28 @@
 ---
 import NavLayout from "../layouts/NavLayout.astro";
 import { addPost } from "../trpc/client";
-
-const payload = Object.fromEntries(Astro.url.searchParams) as {
-    word: string;
-    definition: string;
-    example?: string;
-    authorName?: string;
-};
+import type { IPost } from "../trpc/types";
 
 let error = "";
 let msg = "";
-
-if (Astro.request.method == "POST") {    
-    if (Object.keys(payload).length !== 0) {
-        if (!payload.word.trim()) {
-            error = "You must fill the word input field!";
-            return;
-        }
-
-        if (!payload.definition.trim()) {
-            error = "You must fill the definition input field!";
-            return;
-        }
-        msg = await addPost(payload);
+let form: Partial<IPost> = {};
+    
+if (Astro.request.method == "POST") {
+    const data = await Astro.request.formData();
+    let valid = true;
+    const payload = Object.fromEntries(data) as unknown as IPost;
+    if (!payload.word.trim()) {
+        error = "You must fill out the word field!";
+        valid = false;
+    }
+    if (!payload.definition.trim()) {
+        error = "You must fill out the definition field!";
+        valid = false;
+    }
+    if (valid) {
+        const res = await addPost(payload);
+        msg = res.msg;
+        form = res.post;
     }
 }
 ---
@@ -47,7 +46,7 @@ if (Astro.request.method == "POST") {
     <form method="post" class="md:w-2/3 md:mx-auto flex flex-col gap-2 mx-3">
         <label for="word">Word:</label>
         <input
-            value={Astro.url.searchParams.get("word")}
+            value={form.word}
             class="h-9 bg-gray-200"
             type="text"
             name="word"
@@ -56,23 +55,23 @@ if (Astro.request.method == "POST") {
 
         <label for="definition">Definition:</label>
         <textarea class="h-32 bg-gray-200" name="definition" required
-            >{Astro.url.searchParams.get("definition")}</textarea
+            >{form.definition}</textarea
         >
 
         <label for="example">Example using the word (optional):</label>
         <textarea class="h-24 bg-gray-200" name="example"
-            >{Astro.url.searchParams.get("example")}</textarea
+            >{form.example}</textarea
         >
 
         <label for="authorName">Your name (optional):</label>
         <input
-            value={Astro.url.searchParams.get("authorName")}
+            value={form.authorName}
             class="h-9 bg-gray-200"
             type="text"
             name="authorName"
         />
 
-        <button 
+        <button
             class="self-end px-3 py-2 text-white bg-blue-600 rounded-md"
             type="submit">Submit your word!</button
         >

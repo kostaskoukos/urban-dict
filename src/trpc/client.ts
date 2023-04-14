@@ -1,5 +1,6 @@
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import type { Router } from "./server";
+import type { IPost } from "./types";
 
 const getBaseUrl = () => {
     if (typeof window !== "undefined") return ""; // browser should use relative url
@@ -27,6 +28,6 @@ export const searchPost = async (term: string) => {
     return await api.searchPosts.query(term);
 }
 
-export const addPost = async (post: { word: string, definition: string, example?: string, authorName?: string }): Promise<string> => {
+export const addPost = async (post: IPost): Promise<{ post: IPost, ok: boolean, msg: string }> => {
     return await api.addPost.mutate(post);
 }

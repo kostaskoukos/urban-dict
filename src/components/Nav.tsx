@@ -1,15 +1,7 @@
 import { useState } from 'preact/hooks';
-import type { ChangeEvent } from 'preact/compat';
 
 export default function PreTest() {
     const [open, setOpen] = useState(false);
-    const [term, setTerm] = useState('');
-    const navToSearch = (e: ChangeEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const aTag = document.createElement('a');
-        aTag.href = `/search?term=${encodeURI(term)}`;
-        aTag.click();
-    }
     return <>
         <header class="h-fit bg-slate-500 max-w-full">
             <nav class="md:w-1/2 md:mx-auto md:flex-col flex flex-row justify-evenly gap-3 py-2 mx-3">
@@ -87,7 +79,7 @@ export default function PreTest() {
                         >
                     </div>
                 </div>
-                <form onSubmit={(e) => navToSearch(e)} class="flex flex-row items-center h-10 bg-white px-2 rounded-md">
+                <form method="get" action="/search" class="flex flex-row items-center h-10 bg-white px-2 rounded-md">
                     <svg
 
                         fill="#d1d5db"
@@ -99,10 +91,11 @@ export default function PreTest() {
                         d="m14.6719 12.8906-3.2813-3.2812c.7383-1.0938 1.1211-2.461.9297-3.9375-.3555-2.5156-2.4062-4.539-4.8945-4.8672C3.707.3398.5625 3.4844 1.0273 7.203c.3282 2.4883 2.3516 4.5391 4.8672 4.8946 1.4766.1914 2.8438-.1915 3.9649-.9297l3.2539 3.2812c.4375.4102 1.1211.4102 1.5586 0 .4101-.4375.4101-1.1211 0-1.5586ZM3.1602 6.4375c0-1.914 1.5585-3.5 3.5-3.5 1.914 0 3.5 1.586 3.5 3.5 0 1.9414-1.586 3.5-3.5 3.5a3.4893 3.4893 0 0 1-3.5-3.5Z"
                     ></path></svg
                     >
-                    <input value={term} onInput={(e: ChangeEvent<HTMLInputElement>) => setTerm(e.target?.value)}
+                    <input
                         class="flex-grow indent-3 outline-none bg-transparent"
                         type="text"
                         placeholder="Search..."
+                        name="term"
                     />
                     <button class="p-0 bg-transparent outline-none" type="submit">
                         <svg

@@ -55,15 +55,27 @@ export const router = t.router({
         }),
     addPost: pro
         .input(z.object({
-            word: z.string().nonempty(),
-            definition: z.string().nonempty(),
-            example: z.string().optional(),
-            authorName: z.string().optional()
+            word: z.string().trim().nonempty(),
+            definition: z.string().trim().nonempty(),
+            example: z.string().trim().nullish(),
+            authorName: z.string().trim().nullish()
         }))
         .mutation(async ({ input }) => {
             console.log(input, ' from server');
-            await db.insert(post).values(input as NewPost);
-            return 'Your word was submitted successfully!';
+            let msg = '';
+            let ok = true;
+            try {
+                await db.insert(post).values(input as NewPost);
+                msg = 'Your word was submitted successfully!';
+            } catch (error) {
+                msg = 'Something went wrong with the database connection';
+                ok = false;
+            }
+            return {
+                post: input,
+                ok,
+                msg
+            };
         })
 });
 
