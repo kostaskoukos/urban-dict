@@ -46,7 +46,7 @@ export const router = t.router({
             const posts = await db.select({
                 word: post.word,
                 definition: post.definition,
-                author: post.authorName,
+                authorName: post.authorName,
                 example: post.example,
                 createdAt: post.createdAt
             }).from(post)
