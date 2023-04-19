@@ -1,13 +1,12 @@
 import type { InferModel } from "drizzle-orm";
-import { mysqlTable, varchar, datetime, int } from "drizzle-orm/mysql-core"
-import { sql } from "drizzle-orm/sql"
+import { mysqlTable, varchar, int, timestamp } from "drizzle-orm/mysql-core"
 
 export const post = mysqlTable("Post", {
 	word: varchar("word", { length: 191 }).notNull(),
 	definition: varchar("definition", { length: 191 }).notNull(),
 	example: varchar("example", { length: 191 }),
 	authorName: varchar("authorName", { length: 191 }),
-	createdAt: datetime("createdAt", { mode: 'string', fsp: 3 }).default(sql`(CURRENT_TIMESTAMP(3))`).notNull(),
+	createdAt: timestamp('createdAt', { mode: 'string' }).notNull().defaultNow(),
 	id: int("id").autoincrement().primaryKey().notNull(),
 });
 

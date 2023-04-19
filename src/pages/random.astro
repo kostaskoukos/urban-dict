@@ -1,16 +1,13 @@
 ---
 import NavLayout from "../layouts/NavLayout.astro";
 import Post from "../components/Post";
-import { getAllPosts } from "../trpc/client";
+import { getRandomPosts } from "../trpc/client";
+import type { IPost } from "../trpc/types";
 
-const posts = await getAllPosts();
+const posts = await getRandomPosts();
 ---
 
 <NavLayout title="Get random words from Urban Dict">
     <h1 class="text-center text-4xl">Random Words</h1>
-    {
-        [1, 2, 3, 4, 5].map((num) => (
-            <Post post={posts[Math.floor(Math.random() * posts.length)]} />
-        ))
-    }
+    {posts.map((post: IPost) => <Post post={post} />)}
 </NavLayout>

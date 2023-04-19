@@ -24,6 +24,14 @@ export const getAllPosts = async () => {
     return await api.getAllPosts.query();
 }
 
+export const getRandomPosts = async () => {
+    return await api.getRandomPosts.query();
+}
+
+export const getPostsByLetter = async (letter: 'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'Y'|'Z') => {
+    return await api.getPostsByLetter.query(letter);
+}
+
 export const searchPost = async (term: string) => {
     return await api.searchPosts.query(term);
 }

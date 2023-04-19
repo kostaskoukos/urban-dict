@@ -22,7 +22,8 @@ const db = drizzle(conn);
 ////////////////////      ROUTER       ////////////////////////////////////////////////
 import { initTRPC } from "@trpc/server";
 import { z } from 'zod';
-import { eq } from 'drizzle-orm';
+import { eq, like, or } from 'drizzle-orm';
+import type { IPost } from './types';
 
 const t = initTRPC.context<Context>().create();
 
@@ -39,6 +40,21 @@ export const router = t.router({
         query(async () => {
             const posts = await db.select().from(post);
             return posts;
+        }),
+    getLatestPosts: pro.
+        query(async () => {
+            return 'noice';
+        }),
+    getRandomPosts: pro
+        .query(async () => {
+            const res = await conn.execute('SELECT * FROM Post ORDER BY RAND() LIMIT 5');
+            console.log(res.time, 'for databasejs');
+            return res.rows as unknown as IPost[];
+        }),
+    getPostsByLetter: pro
+        .input(z.string().regex(/^[A-Z]$/).max(1).nonempty())
+        .query(async ({ input }) => {
+            return await db.select().from(post).where(or(like(post.word, `${input}%`), like(post.word, `${input.toLowerCase()}%`)));
         }),
     searchPosts: pro
         .input(z.string().nonempty().trim())
