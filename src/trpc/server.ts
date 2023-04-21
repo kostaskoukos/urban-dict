@@ -1,4 +1,4 @@
-//////////////////////     CONTEXT      //////////////////////////////////////////////////
+//////////////////////     CONTEXT      ///////////////////////////////////////////////
 import type { inferAsyncReturnType } from '@trpc/server';
 import type { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
 
@@ -11,19 +11,22 @@ export function createContext({
 export type Context = inferAsyncReturnType<typeof createContext>;
 
 ////////////////////      DATABASE     ////////////////////////////////////////////////
-import { connect } from "@planetscale/database";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { post, NewPost } from "../db/schema";
-const conn = connect({
-    url: import.meta.env.DATABASE_URL
-});
+import type { DB } from "../db/schema";
+import { Kysely, sql } from "kysely";
+import { PlanetScaleDialect } from 'kysely-planetscale';
+// import { drizzle } from 'drizzle-orm/planetscale-serverless';
+// import { connect } from '@planetscale/database';
 
-const db = drizzle(conn);
+const db = new Kysely<DB>({
+    dialect: new PlanetScaleDialect({
+        url: import.meta.env.DATABASE_URL,
+        useSharedConnection: true
+    })
+});
+// const drz = drizzle(connect({ url: import.meta.env.DATABASE_URL }));
 ////////////////////      ROUTER       ////////////////////////////////////////////////
 import { initTRPC } from "@trpc/server";
 import { z } from 'zod';
-import { eq, like, or } from 'drizzle-orm';
-import type { IPost } from './types';
 
 const t = initTRPC.context<Context>().create();
 
@@ -38,8 +41,9 @@ export const router = t.router({
         }),
     getAllPosts: pro.
         query(async () => {
-            const posts = await db.select().from(post);
-            return posts;
+            return await db
+                .selectFrom('Post').selectAll()
+                .execute();
         }),
     getLatestPosts: pro.
         query(async () => {
@@ -47,27 +51,27 @@ export const router = t.router({
         }),
     getRandomPosts: pro
         .query(async () => {
-            const res = await conn.execute('SELECT * FROM Post ORDER BY RAND() LIMIT 5');
-            console.log(res.time, 'for databasejs');
-            return res.rows as unknown as IPost[];
+            return await db
+                .selectFrom('Post').selectAll()
+                .orderBy(sql`RAND()`)
+                .limit(5)
+                .execute();
         }),
     getPostsByLetter: pro
         .input(z.string().regex(/^[A-Z]$/).max(1).nonempty())
         .query(async ({ input }) => {
-            return await db.select().from(post).where(or(like(post.word, `${input}%`), like(post.word, `${input.toLowerCase()}%`)));
+            return await db
+                .selectFrom('Post').selectAll()
+                .where('Post.word', 'like', `${input}%`)
+                .execute();
         }),
     searchPosts: pro
         .input(z.string().nonempty().trim())
         .query(async ({ input }) => {
-            const posts = await db.select({
-                word: post.word,
-                definition: post.definition,
-                authorName: post.authorName,
-                example: post.example,
-                createdAt: post.createdAt
-            }).from(post)
-                .where(eq(post.word, input));
-            return posts;
+            return await db
+                .selectFrom('Post').selectAll()
+                .where('Post.word', 'like', `%${input}%`)
+                .execute();
         }),
     addPost: pro
         .input(z.object({
@@ -81,7 +85,10 @@ export const router = t.router({
             let msg = '';
             let ok = true;
             try {
-                await db.insert(post).values(input as NewPost);
+                await db
+                    .insertInto('Post')
+                    .values(input)
+                    .execute();
                 msg = 'Your word was submitted successfully!';
             } catch (error) {
                 msg = 'Something went wrong with the database connection';

@@ -1,7 +1,5 @@
 ---
 import NavLayout from "../layouts/NavLayout.astro";
-import TailComp from "../components/TailComp.astro";
-import PreTest from "../components/PreTest";
 import Post from "../components/Post";
 import { getAllPosts, getPostsByLetter } from "../trpc/client";
 
@@ -10,8 +8,6 @@ const fromN = await getPostsByLetter("N");
 ---
 
 <NavLayout title="Home Page for Urban Dict">
-	<TailComp />
-	<PreTest client:visible />
 	{fromN.map((post) => <Post post={post} />)}
 	<hr class="h-10"/>
 	{posts.map((post) => <Post post={post} />)}

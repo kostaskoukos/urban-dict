@@ -1,5 +1,6 @@
 import type { InferModel } from "drizzle-orm";
 import { mysqlTable, varchar, int, timestamp } from "drizzle-orm/mysql-core"
+import type { Kyselify } from "drizzle-orm/kysely";
 
 export const post = mysqlTable("Post", {
 	word: varchar("word", { length: 191 }).notNull(),
@@ -11,3 +12,6 @@ export const post = mysqlTable("Post", {
 });
 
 export type NewPost = InferModel<typeof post, 'insert'>;
+export type DB = {
+	Post: Kyselify<typeof post>
+};

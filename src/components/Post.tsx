@@ -4,7 +4,7 @@ export default function PreTest({ post }: { post: { word?: string | null, defini
             <h1 class="text-5xl font-semibold text-blue-700">{post.word}</h1>
             <p>{post.definition}</p>
             <i>{post.example}</i>
-            <p>by <span class="text-blue-700 font-medium">{post.authorName}</span> at {post.createdAt?.split(' ')[0]}</p>
+            <p>by <span class="text-blue-700 font-medium">{post.authorName}</span> at {post.createdAt?.split('T')[0]}</p>
         </div>
     </>
 }
