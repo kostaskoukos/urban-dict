@@ -14,8 +14,6 @@ export type Context = inferAsyncReturnType<typeof createContext>;
 import type { DB } from "../db/schema";
 import { Kysely, sql } from "kysely";
 import { PlanetScaleDialect } from 'kysely-planetscale';
-// import { drizzle } from 'drizzle-orm/planetscale-serverless';
-// import { connect } from '@planetscale/database';
 
 const db = new Kysely<DB>({
     dialect: new PlanetScaleDialect({
@@ -23,7 +21,6 @@ const db = new Kysely<DB>({
         useSharedConnection: true
     })
 });
-// const drz = drizzle(connect({ url: import.meta.env.DATABASE_URL }));
 ////////////////////      ROUTER       ////////////////////////////////////////////////
 import { initTRPC } from "@trpc/server";
 import { z } from 'zod';
@@ -47,7 +44,11 @@ export const router = t.router({
         }),
     getLatestPosts: pro.
         query(async () => {
-            return 'noice';
+            return await db
+                .selectFrom('Post').selectAll()
+                .orderBy('Post.createdAt', 'desc')
+                .limit(5)
+                .execute();
         }),
     getRandomPosts: pro
         .query(async () => {

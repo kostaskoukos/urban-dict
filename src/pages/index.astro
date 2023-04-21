@@ -1,14 +1,15 @@
 ---
 import NavLayout from "../layouts/NavLayout.astro";
 import Post from "../components/Post";
-import { getAllPosts, getPostsByLetter } from "../trpc/client";
+import { getPostsByLetter, getLatestPosts } from "../trpc/client";
 
-const posts = await getAllPosts();
 const fromN = await getPostsByLetter("N");
+const latest = await getLatestPosts();
 ---
 
 <NavLayout title="Home Page for Urban Dict">
+	<h1 class="text-xl">These start from 'N'</h1>
 	{fromN.map((post) => <Post post={post} />)}
-	<hr class="h-10"/>
-	{posts.map((post) => <Post post={post} />)}
+	<h1 class="text-xl">These are the latest posts</h1>
+	{latest.map((post) => <Post post={post} />)}
 </NavLayout>

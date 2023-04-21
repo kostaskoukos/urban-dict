@@ -28,6 +28,10 @@ export const getRandomPosts = async () => {
     return await api.getRandomPosts.query();
 }
 
+export const getLatestPosts = async () => {
+    return await api.getLatestPosts.query();
+}
+
 export const getPostsByLetter = async (letter: 'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'Y'|'Z') => {
     return await api.getPostsByLetter.query(letter);
 }
