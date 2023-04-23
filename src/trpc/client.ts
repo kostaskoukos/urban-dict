@@ -32,7 +32,7 @@ export const getLatestPosts = async () => {
     return await api.getLatestPosts.query();
 }
 
-export const getPostsByLetter = async (letter: 'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'Y'|'Z') => {
+export const getPostsByLetter = async (letter: string | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'Y' | 'Z') => {
     return await api.getPostsByLetter.query(letter);
 }
 

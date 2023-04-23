@@ -8,6 +8,6 @@ const posts = await getRandomPosts();
 ---
 
 <NavLayout title="Get random words from Urban Dict">
-    <h1 class="text-center text-4xl">Random Words</h1>
-    {posts.map((post: IPost) => <Post post={post} />)}
+    <h1 class="text-4xl text-center">Random Words</h1>
+    <ul class="md:space-y-5 md:my-5 my-4 space-y-3">{posts.map((post: IPost) => <Post post={post} />)}</ul>
 </NavLayout>

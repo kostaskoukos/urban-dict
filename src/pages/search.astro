@@ -9,9 +9,11 @@ const posts = await searchPost(term as string);
 
 <NavLayout title="Search words in Urban Dict">
     <h1 class="text-center text-4xl">Search Results for {term}</h1>
-    {
-        posts.map((post) => {
-            return <Post post={post} />;
-        })
-    }
+    <ul class="md:space-y-5 md:my-5 my-4 space-y-3">
+        {
+            posts.map((post) => {
+                return <Post post={post} />;
+            })
+        }
+    </ul>
 </NavLayout>
