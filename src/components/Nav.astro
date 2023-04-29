@@ -123,7 +123,6 @@
     const check = document.querySelector("#checkboxx") as HTMLInputElement;
     const links = document.querySelector("#linkss") as HTMLDivElement;
     check?.addEventListener("change", (e) => {
-        console.log(check.checked);
         if (check.checked) {
             links.classList.replace("hidden", "flex");
         } else {

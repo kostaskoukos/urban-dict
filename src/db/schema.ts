@@ -7,7 +7,7 @@ export const post = mysqlTable("Post", {
 	definition: varchar("definition", { length: 191 }).notNull(),
 	example: varchar("example", { length: 191 }),
 	authorName: varchar("authorName", { length: 191 }),
-	createdAt: timestamp('createdAt', { mode: 'string' }).notNull().defaultNow(),
+	createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
 	id: int("id").autoincrement().primaryKey().notNull(),
 });
 

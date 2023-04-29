@@ -2,10 +2,9 @@
 import NavLayout from "../layouts/NavLayout.astro";
 import Post from "../components/Post";
 import FromLetter from "../components/FromLetter";
-import { getLatestPosts, getPostsByLetter } from "../trpc/client";
+import { getLatestPosts } from "../trpc/client";
 
 const latest = await getLatestPosts();
-const fromLetter = await getPostsByLetter("A");
 ---
 
 <NavLayout title="Browse through Urban Dict">

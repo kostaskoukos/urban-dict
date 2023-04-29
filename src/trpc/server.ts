@@ -45,7 +45,9 @@ export const router = t.router({
     getLatestPosts: pro.
         query(async () => {
             return await db
-                .selectFrom('Post').selectAll()
+                .selectFrom('Post')
+                .select(['authorName', 'definition', 'example', 'word'])
+                .select(sql`DATE_FORMAT(createdAt, '%d/%m/%Y')`.as('createdAt'))
                 .orderBy('Post.createdAt', 'desc')
                 .limit(5)
                 .execute();
@@ -53,7 +55,9 @@ export const router = t.router({
     getRandomPosts: pro
         .query(async () => {
             return await db
-                .selectFrom('Post').selectAll()
+                .selectFrom('Post')
+                .select(['authorName', 'definition', 'example', 'word'])
+                .select(sql`DATE_FORMAT(createdAt, '%d/%m/%Y')`.as('createdAt'))
                 .orderBy(sql`RAND()`)
                 .limit(5)
                 .execute();
@@ -62,7 +66,9 @@ export const router = t.router({
         .input(z.string().regex(/^[A-Z]$/).max(1).nonempty())
         .query(async ({ input }) => {
             return await db
-                .selectFrom('Post').selectAll()
+                .selectFrom('Post')
+                .select(['authorName', 'definition', 'example', 'word'])
+                .select(sql`DATE_FORMAT(createdAt, '%d/%m/%Y')`.as('createdAt'))
                 .where('Post.word', 'like', `${input}%`)
                 .execute();
         }),
@@ -70,7 +76,9 @@ export const router = t.router({
         .input(z.string().nonempty().trim())
         .query(async ({ input }) => {
             return await db
-                .selectFrom('Post').selectAll()
+                .selectFrom('Post')
+                .select(['authorName', 'definition', 'example', 'word'])
+                .select(sql`DATE_FORMAT(createdAt, '%d/%m/%Y')`.as('createdAt'))
                 .where('Post.word', 'like', `%${input}%`)
                 .execute();
         }),
