@@ -25,7 +25,8 @@ export default function FromLetter() {
     }, [letter])
     return <>
         <h1 class="text-4xl text-center">Browse words from A-Z</h1>
-        <select class="mb-5 mx-auto" onChange={e => setLetter(e.target?.value)}>
+        <label htmlFor="selectt">Choose a letter:</label>
+        <select id="selectt" class="mb-5 mx-auto" onChange={e => setLetter(e.target?.value)}>
             <option>A</option>
             <option>B</option>
             <option>C</option>

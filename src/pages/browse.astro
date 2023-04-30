@@ -7,7 +7,7 @@ import { getLatestPosts } from "../trpc/client";
 const latest = await getLatestPosts();
 ---
 
-<NavLayout title="Browse through Urban Dict">
+<NavLayout title="Browse through Urban Dict" description="Check the latest words by the community and search alphabetically">
     <h1 class="text-4xl text-center">Latest words added by the community!</h1>
     <ul class="md:space-y-5 md:my-5 my-4 space-y-3">
         {latest.map((post) => <Post post={post} />)}

@@ -7,7 +7,7 @@ const term = Astro.url.searchParams.get("term");
 const posts = await searchPost(term as string);
 ---
 
-<NavLayout title="Search words in Urban Dict">
+<NavLayout title="Search words" description="Search for any word you want across Urban Dict">
     <h1 class="text-center text-4xl">Search Results for {term}</h1>
     <ul class="md:space-y-5 md:my-5 my-4 space-y-3">
         {
